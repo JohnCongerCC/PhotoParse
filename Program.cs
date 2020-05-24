@@ -13,7 +13,7 @@ namespace PhotoParse
     {
         static void Main(string[] args)
         {
-            // const string APIKEY = "AIzaSyDjc2n4NvDyILzbUfk-LPilLjxu_xIy_UE";
+            // const string APIKEY = 
 
            
             
