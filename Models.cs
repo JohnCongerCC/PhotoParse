@@ -59,4 +59,32 @@ namespace PhotoParse.Models
 
 
     }
+
+    public class UniquePhoto
+    {
+        public int ID { get; set; }
+        public string Location { get; set; }
+        public DateTime DateTaken { get; set; }
+        public string FileName { get; set; }
+        public string Ext { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public string HResolution { get; set; }
+        public string VResolution { get; set; }
+       
+        public string CameraMaker { get; set; }
+        public string CameraModel { get; set; }
+        public string FocalLength { get; set; }
+        public string MeteringMode { get; set; }
+        public string Flash { get; set; }
+        public string ThumbnailLength { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+        
+        public string Size { get; set; }
+
+
+
+
+    }
 }

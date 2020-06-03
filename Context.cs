@@ -10,6 +10,8 @@ namespace PhotoParse
 
     public DbSet<Photo> Photo { get; set; }
 
+    public DbSet<UniquePhoto> UniquePhoto { get; set; }
+
     public DbSet<Models.ToDoList> ToDoList { get; set; }
 
     public DbSet<Models.ToDoListItem> ToDoListItem { get; set; }

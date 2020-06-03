@@ -13,12 +13,52 @@ namespace PhotoParse
     {
         static void Main(string[] args)
         {
-            // const string APIKEY = 
-
-           
             
+            // WritePhotoDataToSQL(@"D:\My Pictures");
+            // WritePhotoDataToSQL(@"G:\Public\Data\My Pictures");
+            // WritePhotoDataToSQL(@"F:\Pictures");
+            // WritePhotoDataToSQL(@"F:\Backup\My Pictures");
+
+            var Repo = new PhotoDB();   
+            var p = Repo.Photos;
+
+            dynamic UniquePs = p.GroupBy(g => new {g.FileName, g.DateTaken, g.Size}).ToList();
+            int i = 0;
+            foreach (var UP in UniquePs)
+            {
+                i++;
+                var firstPhoto = p.Where(w => w.FileName == UP.Key.FileName && w.DateTaken == UP.Key.DateTaken && w.Size == UP.Key.Size).First();
+                Repo.AddUniquePhoto(ConvertToUnique(firstPhoto));
+                Console.WriteLine(i);
+            }
+        }
+
+        static UniquePhoto ConvertToUnique(Photo photo)
+        {
+            return new UniquePhoto { Location = photo.Location,
+                                    DateTaken = photo.DateTaken,
+                                    FileName = photo.FileName,
+                                    Ext = photo.Ext,
+                                    Width = photo.Width,
+                                    Height = photo.Height,
+                                    HResolution = photo.HResolution, 
+                                    VResolution = photo.VResolution,
+                                    CameraMaker = photo.CameraMaker,
+                                    CameraModel = photo.CameraModel,
+                                    FocalLength = photo.FocalLength,
+                                    MeteringMode = photo.MeteringMode,
+                                    Flash = photo.Flash,
+                                    ThumbnailLength = photo.ThumbnailLength,
+                                    Latitude = photo.Latitude,
+                                    Longitude  = photo.Longitude,
+                                    Size = photo.Size
+                                    };
+        }
+
+        static void WritePhotoDataToSQL(string DirectoryToSearch)
+        {
             var Repo = new PhotoDB();
-            var Start = new DirectoryInfo(@"F:\Backup\My Pictures"); //D:\My Pictures -- G:\Public\Data\My Pictures --F:\Pictures
+            var Start = new DirectoryInfo(DirectoryToSearch); 
             var lst = new Dictionary<string,List<string>>();
             WalkDirectoryTree(Start, lst);
             List<string> ListOfJpg;
@@ -39,7 +79,6 @@ namespace PhotoParse
              if(lst.TryGetValue(".JPG", out ListOfJPG))
                 foreach (var JPG in ListOfJPG)
                      Repo.AddPhoto(CreatePhoto(JPG));
-            
         }
 
         static Photo CreatePhoto(string path)
